@@ -39,7 +39,7 @@ def createDataset(inputPath, gtFile, outputPath, checkValid=True):
     cache = {}
     cnt = 1
 
-    with open(gtFile, 'r', encoding='utf-8') as data:
+    with open(gtFile, 'r', encoding='cp949') as data:
         datalist = data.readlines()
 
     nSamples = len(datalist)
@@ -85,3 +85,4 @@ def createDataset(inputPath, gtFile, outputPath, checkValid=True):
 
 if __name__ == '__main__':
     fire.Fire(createDataset)
+
