@@ -69,7 +69,6 @@ def demo(opt):
                 preds_str = converter.decode(preds_index, length_for_pred)
 
             log = open(f'./log_demo_result.txt', 'a')
-            eval = open(f'./eval_result.txt', 'a')
             dashed_line = '-' * 80
             head = f'{"image_path":25s}\t{"predicted_labels":25s}\tconfidence score'
 
@@ -89,7 +88,6 @@ def demo(opt):
 
                 print(f'{img_name:25s}\t{pred:25s}\t{confidence_score:0.4f}')
                 log.write(f'{img_name:25s}\t{pred:25s}\t{confidence_score:0.4f}\n')
-                eval.write(f'{img_name:25s}\t{pred:25s}\n')
 
             log.close()
 

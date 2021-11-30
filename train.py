@@ -142,7 +142,6 @@ def train(opt):
     best_accuracy = -1
     best_norm_ED = -1
     iteration = start_iter
-    exception = 0
 
     while (True):
         # train part
@@ -151,7 +150,6 @@ def train(opt):
         try:
             text, length = converter.encode(labels, batch_max_length=opt.batch_max_length)
         except:
-            exception += 1
             continue
         batch_size = image.size(0)
 
@@ -222,12 +220,12 @@ def train(opt):
                 print(predicted_result_log)
                 log.write(predicted_result_log + '\n')
 
-        # save model per 1e+3 iter.
-        if (iteration + 1) % 1e+3 == 0:
+        # save model per 1e+5 iter.
+        if (iteration + 1) % 1e+5 == 0:
             torch.save(
                 model.state_dict(), f'./saved_models/{opt.exp_name}/iter_{iteration + 1}.pth')
 
-        if (iteration + exception + 1) == opt.num_iter:
+        if (iteration + 1) == opt.num_iter:
             print('end the training')
             sys.exit()
         iteration += 1
@@ -240,8 +238,8 @@ if __name__ == '__main__':
     parser.add_argument('--valid_data', required=True, help='path to validation dataset')
     parser.add_argument('--manualSeed', type=int, default=1111, help='for random seed setting')
     parser.add_argument('--workers', type=int, help='number of data loading workers', default=4)
-    parser.add_argument('--batch_size', type=int, default=192, help='input batch size')
-    parser.add_argument('--num_iter', type=int, default=20000, help='number of iterations to train for')
+    parser.add_argument('--batch_size', type=int, default=100, help='input batch size')
+    parser.add_argument('--num_iter', type=int, default=300000, help='number of iterations to train for')
     parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
     parser.add_argument('--saved_model', default='', help="path to model to continue training")
     parser.add_argument('--FT', action='store_true', help='whether to do fine-tuning')
