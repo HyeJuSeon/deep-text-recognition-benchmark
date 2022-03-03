@@ -82,9 +82,9 @@ class ResNet_FeatureExtractor(nn.Module):
         return self.ConvNet(input)
 
 class EfficientNet_FeatureExtractor(nn.Module):
-    def __init__(self, input_channel, output_channel=512):
+    def __init__(self, input_channel, output_channel=32):
         super(EfficientNet_FeatureExtractor, self).__init__()
-        self.ConvNet = EfficientNet.from_name(input_channel, output_channel, 'efficientnet-b0')
+        self.ConvNet = EfficientNet.from_name(input_channel, output_channel, 'efficientnet-b5')
         
     def forward(self, input):
         return self.ConvNet(input)
@@ -407,7 +407,7 @@ class EfficientNet(nn.Module):
 
         # Stem
         in_channels = input_channel  # rgb
-        out_channels = round_filters(output_channel, self._global_params)  # number of output channels
+        out_channels = round_filters(32, self._global_params)  # number of output channels
         self._conv_stem = Conv2d(in_channels, out_channels, kernel_size=3, stride=2, bias=False)
         self._bn0 = nn.BatchNorm2d(num_features=out_channels, momentum=bn_mom, eps=bn_eps)
         image_size = calculate_output_image_size(image_size, 2)
@@ -434,7 +434,7 @@ class EfficientNet(nn.Module):
 
         # Head
         in_channels = block_args.output_filters  # output of final block
-        out_channels = round_filters(1280, self._global_params)
+        out_channels = round_filters(out_channels, self._global_params)
         Conv2d = get_same_padding_conv2d(image_size=image_size)
         self._conv_head = Conv2d(in_channels, out_channels, kernel_size=1, bias=False)
         self._bn1 = nn.BatchNorm2d(num_features=out_channels, momentum=bn_mom, eps=bn_eps)
@@ -613,3 +613,4 @@ class EfficientNet(nn.Module):
             Conv2d = get_same_padding_conv2d(image_size=self._global_params.image_size)
             out_channels = round_filters(32, self._global_params)
             self._conv_stem = Conv2d(in_channels, out_channels, kernel_size=3, stride=2, bias=False)
+
