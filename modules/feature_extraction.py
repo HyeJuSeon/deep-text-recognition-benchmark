@@ -76,7 +76,7 @@ class ResNet_FeatureExtractor(nn.Module):
 class EfficientNet_FeatureExtractor(nn.Module):
     def __init__(self, input_channel, output_channel=512):
         super(EfficientNet_FeatureExtractor, self).__init__()
-        self.ConvNet = EfficientNet(input_channel, output_channel)
+        self.ConvNet = EfficientNet.from_name('efficientnet-b0')
         
     def forward(self, input):
         return self.ConvNet(input)
